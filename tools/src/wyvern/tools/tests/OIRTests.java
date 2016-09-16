@@ -444,4 +444,14 @@ public class OIRTests {
             "counter.incr()\n";
         testPyFromInput(input, "2");
     }
+
+    @Test
+    public void testTCOShadowing() throws ParseException {
+        String input =
+            "def f() : Int\n" +
+            "  def f() : Int = 7\n" +
+            "  f()\n" +
+            "f()\n";
+        testPyFromInput(input, "7");
+    }
 }

@@ -1,59 +1,12 @@
-import python:pygame
-import python:helper
-import python:time
+import pygame
 
-type Surface
-  def fill(color : Color) : Unit
-
-type Rect
-
-type Color
-
-type Clock
-  def tick(fps : Int) : Unit
-
-type Draw
-  def rect(surface : Surface,
-           color : Color,
-           rect : Rect,
-           width : Int) : Rect
-
-type Display
-  def set_mode(size : Dyn,
-               flags : Int,
-               depth : Int) : Surface
-  def flip() : Unit
-
-type Helper
-  def make2Tuple(a : Dyn, b : Dyn) : Dyn
-  def fst(a : Dyn) : Dyn
-  def snd(a : Dyn) : Dyn
-  def makeRect(left : Int, top : Int, width : Int, height : Int) : Rect
-  val white : Color
-  val black : Color
-  def makeClock() : Clock
-  def debug(msg : String) : Unit
-val helper : Helper = helper
-
-type Pygame
-  def init() : Unit
-  def quit() : Unit
-
-  val draw : Draw
-  val display : Display
-
-  def Rect(x : Int, y : Int, height : Int, width : Int) : Rect
-
-type Time
-  def sleep(t : Int) : Unit
-val time : Time = time
-
-val pygame : Pygame = pygame
+val white = pygame.Color("white")
+val black = pygame.Color("black")
 
 resource type GameLoop
   val fps : Int
   def oneIteration() : Unit
-val clock : Clock = helper.makeClock()
+val clock : pygame.Clock = pygame.time.Clock()
 def run(gameLoop : GameLoop) : Unit
   clock.tick(gameLoop.fps)
   gameLoop.oneIteration()
@@ -66,8 +19,8 @@ val loop : GameLoop = new
   var y : Int = 10
 
   def oneIteration() : Unit
-    screen.fill(helper.black)
-    pygame.draw.rect(screen, helper.white, pygame.Rect(10, this.y, 20, 30), 0)
+    screen.fill(black)
+    pygame.draw.rect(screen, white, pygame.Rect(10, this.y, 20, 30), 0)
     pygame.display.flip()
     this.y = this.y + 1
 
