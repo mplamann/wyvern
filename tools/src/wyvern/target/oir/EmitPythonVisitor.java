@@ -364,6 +364,8 @@ public class EmitPythonVisitor extends ASTVisitor<EmitPythonState, String> {
         strVal = "(" + objExpr + " or " + args + ")";
     } else if (isBool && methodName.equals("&&")) {
         strVal = "(" + objExpr + " and " + args + ")";
+    } else if (isInt && methodName.equals("negate")) {
+        strVal = "-(" + objExpr + ")";
     } else {
         if (isOperator)
             strVal = "(" + objExpr + " " +

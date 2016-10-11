@@ -523,4 +523,13 @@ public class OIRTests {
             "obj.f()\n";
         testPyFromInput(input, "5");
     }
+
+    @Test
+    public void testNegativeIntLiteral() throws ParseException {
+        String input =
+            "def f() : Int\n" +
+            "  -5\n" +
+            "f()\n";
+        testPyFromInput(input, "-5", true);
+    }
 }
