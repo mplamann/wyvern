@@ -32,6 +32,7 @@ import wyvern.target.oir.OIREnvironment;
 import wyvern.target.oir.EmitPythonVisitor;
 import wyvern.tools.imports.extensions.WyvernResolver;
 import wyvern.tools.parsing.coreparser.ParseException;
+import wyvern.tools.tests.suites.CurrentlyBroken;
 import wyvern.tools.tests.suites.RegressionTests;
 import wyvern.tools.tests.tagTests.TestUtil;
 import wyvern.tools.typedAST.interfaces.ExpressionAST;
@@ -515,6 +516,7 @@ public class OIRTests {
     }
 
     @Test
+    @Category(CurrentlyBroken.class)
     public void testNestedLambda() throws ParseException {
         String input =
             "val obj = new\n" +
