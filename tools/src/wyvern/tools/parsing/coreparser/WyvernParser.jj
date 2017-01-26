@@ -159,6 +159,7 @@ TOKEN : /* Symbols */
 TOKEN : /* Literals */
 {
   < STRING_LITERAL >
+| < BACKTICK_STRING_LITERAL >
 | < DECIMAL_LITERAL >
 | < BOOLEAN_LITERAL >
 | < RATIONAL_LITERAL >
@@ -298,7 +299,7 @@ AST Declaration(boolean inModule) :
 AST DefDeclaration() :
 { Type resultType; Token name; AST body; List args; List<String> gentypes = null; }
 {
-  <DEF> (name=<IDENTIFIER> | name = OverrideOperator()) [gentypes = Generics()] args = Formals() <COLON> resultType = Type() body=DefBody() {
+  <DEF> (name=<IDENTIFIER> | name = OverrideOperator() | name=<BACKTICK_STRING_LITERAL>) [gentypes = Generics()] args = Formals() <COLON> resultType = Type() body=DefBody() {
 	return build.defDecl(name.image, resultType, gentypes, args, body, false, loc(name));
   }
 }
@@ -306,7 +307,7 @@ AST DefDeclaration() :
 AST ValDeclaration() :
 { Type type = null; Token name; AST body; List args; }
 {
-  <VAL> name=<IDENTIFIER> [ <COLON> type = Type() ] <EQUALS> body = ExpressionLine(false) {
+  <VAL> (name=<IDENTIFIER> | name=<BACKTICK_STRING_LITERAL>) [ <COLON> type = Type() ] <EQUALS> body = ExpressionLine(false) {
 	return build.valDecl(name.image, type, body, loc(name));
   }
 }
@@ -323,7 +324,7 @@ AST TypeAbbrevDeclaration() :
 AST VarDeclaration() :
 { Type type; Token name; AST body; List args; }
 {
-  <VAR> name=<IDENTIFIER> <COLON> type = Type() <EQUALS> body = ExpressionLine(false) {
+  <VAR> (name=<IDENTIFIER> | name=<BACKTICK_STRING_LITERAL>) <COLON> type = Type() <EQUALS> body = ExpressionLine(false) {
 	return build.varDecl(name.image, type, body, loc(name));
   }
 }
@@ -704,7 +705,10 @@ AST Literal() :
 AST PrimarySuffix(AST lhs, ExpFlags flags) :
 { AST rhs; Token t; List<String> gentypes = null;}
 {
+  LOOKAHEAD(2)
   <DOT> t = <IDENTIFIER> { return build.invocation(lhs, t.image, null, loc(t)); }
+|
+  <DOT> t = <BACKTICK_STRING_LITERAL> { return build.invocation(lhs, t.image, null, loc(t)); }
 |
   [gentypes = Generics()] rhs = Arguments(flags) {
     return build.application(lhs, rhs, null, gentypes);

@@ -329,6 +329,10 @@ import wyvern.tools.errors.ToolError;
  		RESULT = token(STRING_LITERAL, replaceEscapeSequences(lexeme.substring(1,lexeme.length()-1)));
  	:};
 
+  terminal Token backtickString_t ::= /`([^`]*)`/ {:
+    RESULT=token(BACKTICK_STRING_LITERAL, lexeme.substring(1,lexeme.length()-1));
+  :};
+
  	terminal Token oCurly_t ::= /\{/ {: RESULT = token(LBRACE,lexeme); :};
  	terminal Token cCurly_t ::= /\}/ {: RESULT = token(RBRACE,lexeme); :};
  	terminal notCurly_t ::= /[^\{\}]*/ {: RESULT = lexeme; :};
@@ -418,6 +422,7 @@ import wyvern.tools.errors.ToolError;
 	literal ::= decimalInteger_t:t {: RESULT = t; :}
 	          | booleanLit_t:t {: RESULT = t; :}
 	          | shortString_t:t {: RESULT = t; :}
+            | backtickString_t:t {: RESULT = t; :}
 	          | inlinelit:lit {: RESULT = RESULT = token(DSL_LITERAL,(String)lit); :};
 	
 	operator ::= tilde_t:t {: foundTilde = true; RESULT = t; :}

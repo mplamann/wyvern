@@ -661,4 +661,13 @@ public class OIRTests {
             "\n";
         testPyFromInput(input, "7");
     }
+
+    @Test
+    public void testQuotedInvocation() throws ParseException {
+        String input =
+            "val obj = new\n" +
+            "  val `type` = 57\n" +
+            "obj.`type`\n";
+        testPyFromInput(input, "57");
+    }
 }
