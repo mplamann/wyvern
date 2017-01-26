@@ -765,6 +765,10 @@ public class ILTests {
 		doTestScriptModularly("tsls.postfixClient", Util.intType(), new IntegerLiteral(7));
 	}
 	
+    @Test
+    public void testPostTSLIndentation() throws ParseException {
+        doTestScriptModularly("tsls.postTSLIndentation", Util.intType(), new IntegerLiteral(23));
+    }
 	// tests import-dependent types
 	@Test
 	public void testIDT() throws ParseException {
