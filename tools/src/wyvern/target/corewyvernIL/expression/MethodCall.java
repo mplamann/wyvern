@@ -17,6 +17,7 @@ import wyvern.target.corewyvernIL.support.ViewExtension;
 import wyvern.target.corewyvernIL.type.StructuralType;
 import wyvern.target.corewyvernIL.type.ValueType;
 import wyvern.tools.errors.ErrorMessage;
+import wyvern.tools.errors.ErrorUtils;
 import wyvern.tools.errors.HasLocation;
 import wyvern.tools.errors.ToolError;
 
@@ -119,7 +120,7 @@ public class MethodCall extends Expression {
 		// Sanity check: make sure it has declarations.
 		List<DeclType> declarationTypes = receiverType.findDecls(methodName, ctx);
 		if (declarationTypes.isEmpty()) {
-			ToolError.reportError(ErrorMessage.NO_SUCH_METHOD, this, methodName);
+        ToolError.reportError(ErrorMessage.NO_SUCH_METHOD, this, methodName + "\n" + ErrorUtils.visibleMethods(receiverType));
 		}
 
 		// Go through all declarations, typechecking against the actual types passed in...
@@ -184,7 +185,8 @@ public class MethodCall extends Expression {
 		if (args.size() > 0)
 			errMsg.append(actualArgTypes.get(args.size() - 1).toString());
 		errMsg.append(")");
-		ToolError.reportError(ErrorMessage.NO_METHOD_WITH_THESE_ARG_TYPES, this, errMsg.toString());
+
+		ToolError.reportError(ErrorMessage.NO_METHOD_WITH_THESE_ARG_TYPES, this, errMsg.toString(), ErrorUtils.visibleMethods(receiverType));
 		return null;
 	}
 

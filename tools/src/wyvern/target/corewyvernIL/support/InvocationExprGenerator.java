@@ -14,6 +14,7 @@ import wyvern.target.corewyvernIL.expression.IExpr;
 import wyvern.target.corewyvernIL.expression.MethodCall;
 import wyvern.target.corewyvernIL.type.ValueType;
 import wyvern.tools.errors.ErrorMessage;
+import wyvern.tools.errors.ErrorUtils;
 import wyvern.tools.errors.FileLocation;
 import wyvern.tools.errors.HasLocation;
 import wyvern.tools.errors.ToolError;
@@ -32,7 +33,7 @@ public class InvocationExprGenerator implements CallableExprGenerator {
 		// not interested in finding Type Decls (abstract or not)
 		dts.removeIf(cdt -> cdt.isTypeDecl());
 		if (dts.size() == 0)
-			ToolError.reportError(ErrorMessage.NO_SUCH_METHOD, loc, operationName);
+        ToolError.reportError(ErrorMessage.NO_SUCH_METHOD, loc, operationName + "\n" + ErrorUtils.visibleMethods(rt.getStructuralType(ctx)));
 		if (dts.size() >1)
 			ToolError.reportError(ErrorMessage.DUPLICATE_MEMBER, loc, rt.toString(), operationName);
 		DeclType dt = dts.get(0);
