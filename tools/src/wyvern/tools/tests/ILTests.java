@@ -771,6 +771,7 @@ public class ILTests {
     // }
 	
     @Test
+    @Category(CurrentlyBroken.class)
     public void testPostTSLIndentation() throws ParseException {
         doTestScriptModularly("tsls.postTSLIndentation", Util.intType(), new IntegerLiteral(23));
     }

@@ -41,7 +41,7 @@ public class InvocationExprGenerator implements CallableExprGenerator {
 		// not interested in finding Type Decls (abstract or not)
 		dts.removeIf(cdt -> cdt.isTypeDecl());
 		if (dts.size() == 0)
-        ToolError.reportError(ErrorMessage.NO_SUCH_METHOD, loc, operationName + "\n" + ErrorUtils.visibleMethods(rt.getStructuralType(ctx)));
+        ToolError.reportError(ErrorMessage.NO_SUCH_METHOD, loc, operationName + "\n" + ErrorUtils.visibleMethods(receiverType.getStructuralType(ctx)));
 		if (dts.size() >1)
 			ToolError.reportError(ErrorMessage.DUPLICATE_MEMBER, loc, receiverType.toString(), operationName);
 		DeclType dt = dts.get(0);
