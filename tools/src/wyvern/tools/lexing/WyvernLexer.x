@@ -298,6 +298,7 @@ import wyvern.tools.errors.ToolError;
 
  	terminal Token booleanLit_t ::= /true|false/ in (keywds) {: RESULT = token(BOOLEAN_LITERAL,lexeme); :};
  	terminal Token decimalInteger_t ::= /([1-9][0-9]*)|0/  {: RESULT = token(DECIMAL_LITERAL,lexeme); :};
+ 	terminal Token floatLit_t ::= /(([1-9][0-9]*)|0)\.[0-9]*/  {: RESULT = token(FLOAT_LITERAL,lexeme); :};
 
 	terminal Token tilde_t ::= /~/ {: RESULT = token(TILDE,lexeme); :};
 	terminal Token plus_t ::= /\+/ {: RESULT = token(PLUS,lexeme); :};
@@ -420,6 +421,7 @@ import wyvern.tools.errors.ToolError;
 //	       | :t {: RESULT = t; :}
 
 	literal ::= decimalInteger_t:t {: RESULT = t; :}
+            | floatLit_t:t {: RESULT = t; :}
 	          | booleanLit_t:t {: RESULT = t; :}
 	          | shortString_t:t {: RESULT = t; :}
             | backtickString_t:t {: RESULT = t; :}

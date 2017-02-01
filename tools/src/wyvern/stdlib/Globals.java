@@ -117,6 +117,7 @@ public class Globals {
 		}
 		GenContext genCtx = new EmptyGenContext(state).extend("system", new Variable("system"), Globals.getSystemType());
 		genCtx = new TypeGenContext("Int", "system", genCtx);
+		genCtx = new TypeGenContext("Float", "system", genCtx);
 		genCtx = new TypeGenContext("Unit", "system", genCtx);
 		genCtx = new TypeGenContext("String", "system", genCtx);
 		genCtx = new TypeGenContext("Boolean", "system", genCtx);
@@ -126,6 +127,20 @@ public class Globals {
 		genCtx = GenUtil.ensureJavaTypesPresent(genCtx);
 		return genCtx;
 	}
+
+    private static List<DeclType> numericDeclTypes(ValueType numericType) {
+        List<DeclType> declTypes = new LinkedList<DeclType>();
+        declTypes.add(new DefDeclType("+", numericType, Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("-", numericType, Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("*", numericType, Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("/", numericType, Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("%", numericType, Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("<", Util.booleanType(), Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType(">", Util.booleanType(), Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("==", Util.booleanType(), Arrays.asList(new FormalArg("other", numericType))));
+        declTypes.add(new DefDeclType("negate", numericType, Arrays.asList()));
+        return declTypes;
+    }
 
 	private static ValueType getSystemType() {
 		List<FormalArg> ifTrueArgs = Arrays.asList(
@@ -137,20 +152,14 @@ public class Globals {
     boolDeclTypes.add(new DefDeclType("||", Util.booleanType(), Arrays.asList(new FormalArg("other", Util.booleanType()))));
 		// construct a type for the system object
 		List<DeclType> declTypes = new LinkedList<DeclType>();
-		List<DeclType> intDeclTypes = new LinkedList<DeclType>();
-		intDeclTypes.add(new DefDeclType("+", Util.intType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType("-", Util.intType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType("*", Util.intType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType("/", Util.intType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType("%", Util.intType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType("<", Util.booleanType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType(">", Util.booleanType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-		intDeclTypes.add(new DefDeclType("==", Util.booleanType(), Arrays.asList(new FormalArg("other", Util.intType()))));
-    intDeclTypes.add(new DefDeclType("negate", Util.intType(), Arrays.asList()));
-		ValueType intType = new StructuralType("intSelf", intDeclTypes);
+		ValueType intType = new StructuralType("intSelf", numericDeclTypes(Util.intType()));
 		ValueType boolType = new StructuralType("boolean", boolDeclTypes);
+    List<DeclType> floatDeclTypes = numericDeclTypes(Util.floatType());
+    floatDeclTypes.add(0, new DefDeclType("toInt", Util.intType(), Arrays.asList()));
+    ValueType floatType = new StructuralType("floatSelf", floatDeclTypes);
 		declTypes.add(new ConcreteTypeMember("Int", intType));
 		declTypes.add(new ConcreteTypeMember("Boolean", boolType));
+    declTypes.add(new ConcreteTypeMember("Float", floatType));
 		declTypes.add(new ConcreteTypeMember("Unit", Util.unitType()));
 
     List<DeclType> stringDeclTypes = new LinkedList<DeclType>();
@@ -163,6 +172,8 @@ public class Globals {
 		//declTypes.add(new AbstractTypeMember("Python"));
     List<DeclType> pyDeclTypes = new LinkedList<DeclType>();
     pyDeclTypes.add(new DefDeclType("toString", Util.stringType(), Arrays.asList(new FormalArg("other", Util.dynType()))));
+    pyDeclTypes.add(new DefDeclType("toInt", Util.intType(), Arrays.asList(new FormalArg("other", Util.dynType()))));
+    pyDeclTypes.add(new DefDeclType("toFloat", Util.floatType(), Arrays.asList(new FormalArg("other", Util.dynType()))));
     pyDeclTypes.add(new DefDeclType("isEqual", Util.booleanType(), Arrays.asList(new FormalArg("arg1", Util.dynType()), new FormalArg("arg2", Util.dynType()))));
     ValueType pythonType = new StructuralType("Python", pyDeclTypes);
     declTypes.add(new ConcreteTypeMember("Python", pythonType));

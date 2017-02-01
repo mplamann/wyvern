@@ -13,6 +13,7 @@ import wyvern.target.oir.expressions.OIRBoolean;
 import wyvern.target.oir.expressions.OIRCast;
 import wyvern.target.oir.expressions.OIRExpression;
 import wyvern.target.oir.expressions.OIRFFIImport;
+import wyvern.target.oir.expressions.OIRFloat;
 import wyvern.target.oir.expressions.OIRFieldGet;
 import wyvern.target.oir.expressions.OIRFieldSet;
 import wyvern.target.oir.expressions.OIRIfThenElse;
@@ -28,6 +29,12 @@ public class EmitLLVMVisitor extends EmitILVisitor<String> {
 	@Override
 	public String visit(OIREnvironment oirenv, OIRInteger oirInteger) {
 		return EmitLLVMNative.integerToLLVMIR(oirInteger);
+	}
+
+  @Override
+  public String visit(OIREnvironment oirenv, OIRFloat oirFloat) {
+      // TODO Auto-generated method stub
+      return null;
 	}
 
 	@Override

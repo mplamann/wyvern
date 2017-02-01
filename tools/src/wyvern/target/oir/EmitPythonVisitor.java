@@ -26,6 +26,7 @@ import wyvern.target.oir.expressions.OIRBoolean;
 import wyvern.target.oir.expressions.OIRCast;
 import wyvern.target.oir.expressions.OIRExpression;
 import wyvern.target.oir.expressions.OIRFFIImport;
+import wyvern.target.oir.expressions.OIRFloat;
 import wyvern.target.oir.expressions.FFIType;
 import wyvern.target.oir.expressions.OIRFieldGet;
 import wyvern.target.oir.expressions.OIRFieldSet;
@@ -162,6 +163,10 @@ public class EmitPythonVisitor extends ASTVisitor<EmitPythonState, String> {
         "class PythonPrelude:\n" +
         "  def toString(self, x):\n" +
         "    return str(x)\n" +
+        "  def toInt(self, x):\n" +
+        "    return int(x)\n" +
+        "  def toFloat(self, x):\n" +
+        "    return float(x)\n" +
         "ffi_python = PythonPrelude()\n\n"
         ;
 
@@ -193,6 +198,15 @@ public class EmitPythonVisitor extends ASTVisitor<EmitPythonState, String> {
     String strVal = Integer.toString(oirInteger.getValue());
     if (state.expectingReturn)
       return state.returnType + " " + strVal;
+    return strVal;
+  }
+
+  public String visit(EmitPythonState state,
+                      OIRFloat oirFloat) {
+    state.currentLetVar = "";
+    String strVal = Float.toString(oirFloat.getValue());
+    if (state.expectingReturn)
+        return state.returnType + " " + strVal;
     return strVal;
   }
 

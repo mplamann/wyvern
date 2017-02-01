@@ -161,6 +161,7 @@ TOKEN : /* Literals */
   < STRING_LITERAL >
 | < BACKTICK_STRING_LITERAL >
 | < DECIMAL_LITERAL >
+| < FLOAT_LITERAL >
 | < BOOLEAN_LITERAL >
 | < RATIONAL_LITERAL >
 | < DSL_LITERAL >
@@ -690,6 +691,8 @@ AST Literal() :
   lit = <STRING_LITERAL>  { return build.stringLit(lit.image, loc(lit)); }
 |
   lit = <DECIMAL_LITERAL> { return build.integerLit(Integer.parseInt(lit.image), loc(lit)); }
+|
+  lit = <FLOAT_LITERAL> { return build.floatLit(Float.parseFloat(lit.image), loc(lit)); }
 |
   lit = <BOOLEAN_LITERAL> { return build.booleanLit(Boolean.parseBoolean(lit.image), loc(lit)); }
 |

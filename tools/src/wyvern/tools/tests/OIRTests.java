@@ -670,4 +670,44 @@ public class OIRTests {
             "obj.`type`\n";
         testPyFromInput(input, "57");
     }
+
+    @Test
+    public void testFloatLiteral() throws ParseException {
+        String input =
+            "val x = 3.25\n" +
+            "x\n";
+        testPyFromInput(input, "3.25");
+    }
+
+    @Test
+    public void testFloatAddition() throws ParseException {
+        String input =
+            "val x = 3.25 + 5.76\n" +
+            "x\n";
+        testPyFromInput(input, "9.01");
+    }
+
+    @Test
+    public void testFloatSubtraction() throws ParseException {
+        String input =
+            "val x = 3.14 - 3.14\n" +
+            "x\n";
+        testPyFromInput(input, "0.0");
+    }
+
+    @Test
+    public void testFloatMult() throws ParseException {
+        String input =
+            "val x = 5.17 * 3.619\n" +
+            "x\n";
+        testPyFromInput(input, "18.71023");
+    }
+
+    @Test
+    public void testFloatDiv() throws ParseException {
+        String input =
+            "val x = 1.0 / 2.0\n" +
+            "x\n";
+        testPyFromInput(input, "0.5");
+    }
 }

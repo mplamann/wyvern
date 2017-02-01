@@ -17,6 +17,7 @@ public class Util {
 	private static ValueType theBooleanType = new NominalType("system","Boolean");
 	private static ValueType theEmptyType = new StructuralType("empty",new LinkedList<>());
 	private static ValueType theIntType = new NominalType("system","Int");
+  private static ValueType theFloatType = new NominalType("system","Float");
 	private static ValueType theStringType = new NominalType("system","String");
 	private static ValueType theUnitType = new StructuralType("unitSelf", new LinkedList<DeclType>());
 	private static ValueType theDynType = new DynamicType();
@@ -24,6 +25,7 @@ public class Util {
 	public static ValueType booleanType() { return theBooleanType; }
 	public static ValueType emptyType() { return theEmptyType; }
 	public static ValueType intType() { return theIntType; }
+  public static ValueType floatType() { return theFloatType; }
 	public static ValueType stringType() { return theStringType; }
 	public static ValueType unitType() { return theUnitType; }
 	public static ValueType dynType() { return theDynType; }

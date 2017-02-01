@@ -22,6 +22,7 @@ import wyvern.target.oir.expressions.OIRCast;
 import wyvern.target.oir.expressions.OIRExpression;
 import wyvern.target.oir.expressions.OIRFFIImport;
 import wyvern.target.oir.expressions.FFIType;
+import wyvern.target.oir.expressions.OIRFloat;
 import wyvern.target.oir.expressions.OIRFieldGet;
 import wyvern.target.oir.expressions.OIRFieldSet;
 import wyvern.target.oir.expressions.OIRIfThenElse;
@@ -92,6 +93,11 @@ public class NameMangleVisitor extends ASTVisitor<NameMangleState, OIRAST> {
     public OIRAST visit(NameMangleState state,
                         OIRInteger oirInteger) {
         return oirInteger;
+    }
+
+    public OIRAST visit(NameMangleState state,
+                        OIRFloat oirFloat) {
+        return oirFloat;
     }
 
     public OIRAST visit(NameMangleState state,

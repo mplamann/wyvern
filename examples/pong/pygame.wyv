@@ -127,6 +127,15 @@ type Pygame
   val K_UP : Key
   val K_DOWN : Key
   val K_ESCAPE : Key
+  val K_1 : Key
+  val K_2 : Key
+  val K_3 : Key
+  val K_4 : Key
+  val K_5 : Key
+  val K_6 : Key
+  val K_7 : Key
+  val K_8 : Key
+  val K_9 : Key
 
 type Time
   def sleep(t : Int) : Unit
@@ -155,3 +164,12 @@ val NOEVENT = pygame.NOEVENT
 val K_UP = pygame.K_UP
 val K_DOWN = pygame.K_DOWN
 val K_ESCAPE = pygame.K_ESCAPE
+val K_1 = pygame.K_1
+val K_2 = pygame.K_2
+val K_3 = pygame.K_3
+val K_4 = pygame.K_4
+val K_5 = pygame.K_5
+val K_6 = pygame.K_6
+val K_7 = pygame.K_7
+val K_8 = pygame.K_8
+val K_9 = pygame.K_9

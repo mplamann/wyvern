@@ -24,6 +24,7 @@ import wyvern.target.corewyvernIL.expression.Cast;
 import wyvern.target.corewyvernIL.expression.Expression;
 import wyvern.target.corewyvernIL.expression.FFI;
 import wyvern.target.corewyvernIL.expression.FFIImport;
+import wyvern.target.corewyvernIL.expression.FloatLiteral;
 import wyvern.target.corewyvernIL.expression.FieldGet;
 import wyvern.target.corewyvernIL.expression.FieldSet;
 import wyvern.target.corewyvernIL.expression.IExpr;
@@ -63,6 +64,8 @@ import wyvern.target.oir.expressions.OIRBoolean;
 import wyvern.target.oir.expressions.OIRCast;
 import wyvern.target.oir.expressions.OIRExpression;
 import wyvern.target.oir.expressions.OIRFFIImport;
+import wyvern.target.oir.expressions.OIRInteger;
+import wyvern.target.oir.expressions.OIRFloat;
 import wyvern.target.oir.expressions.OIRFieldGet;
 import wyvern.target.oir.expressions.OIRFieldSet;
 import wyvern.target.oir.expressions.OIRIfThenElse;
@@ -286,6 +289,11 @@ public class EmitOIRVisitor extends ASTVisitor<EmitOIRState, OIRAST> {
 		return oirInt;
 	}
 
+    public OIRAST visit(EmitOIRState state, FloatLiteral floatLiteral) {
+        OIRFloat oirFloat = new OIRFloat(floatLiteral.getValue());
+        oirFloat.copyMetadata(floatLiteral);
+        return oirFloat;
+    }
 
   public OIRAST visit(EmitOIRState state, BooleanLiteral booleanLiteral) {
     OIRBoolean oirBool = new OIRBoolean(booleanLiteral.getValue());

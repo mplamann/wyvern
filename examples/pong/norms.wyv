@@ -1,0 +1,136 @@
+import pygame
+import python:math
+import python:random
+require stdout
+require python
+
+import metadata wyvern.IfTSL
+
+type Math
+  def pow(x : Float, y : Float) : Float
+  def sqrt(x : Float) : Float
+  def fabs(x : Float) : Float
+
+val math : Math = math
+
+type Random
+  def uniform(a : Float, b : Float) : Float
+
+val random : Random = random
+
+resource type GameLoop
+  val fps : Int
+  val done : Boolean
+  def oneIteration() : Unit
+  def processEvent(e : pygame.Event) : Unit
+
+val clock : pygame.Clock = pygame.helper.makeClock()
+
+def processEvents(gameLoop : GameLoop) : Unit
+  val event = pygame.event.poll()
+  def f() : Unit
+    gameLoop.processEvent(event)
+    processEvents(gameLoop)
+  (pygame.helper.getType(event) == pygame.NOEVENT).ifTrue(() => 0, () => f())
+
+def run(gameLoop : GameLoop) : Unit
+  clock.tick(gameLoop.fps)
+  gameLoop.oneIteration()
+  processEvents(gameLoop)
+  IfTSL.doifR(gameLoop.done, ~)
+    then
+      0
+    else
+      run(gameLoop)
+  // Indentation needed because of parser bug
+
+val width = 640
+val height = 640
+val screen = pygame.display.set_mode(pygame.helper.make2Tuple(width, height), 0, 0)
+
+screen.fill(pygame.helper.black)
+
+type Point
+  val x : Float
+  val y : Float
+  def distanceTo(other : Point, l : Float) : Float
+  def print() : Unit
+
+var norm : Float = 2.0
+
+def pointAt(x : Float, y : Float) : Point = new
+  val x = x
+  val y = y
+  def distanceTo(other : Point, l : Float) : Float = math.pow(math.fabs(math.pow(x - other.x,l)) + math.fabs(math.pow(y - other.y,l)), 1.0 / l)
+  def print() : Unit
+    stdout.print("(")
+    stdout.print(python.toString(this.x))
+    stdout.print(", ")
+    stdout.print(python.toString(this.y))
+    stdout.print(")")
+
+def change_norm(new_norm : Float) : Unit
+  norm = new_norm
+  screen.fill(pygame.helper.black)
+
+def drawPoint() : Unit
+  val test_pt = pointAt(random.uniform(0.0, 640.0), random.uniform(0.0, 640.0))
+  val center = pointAt(320.0, 320.0)
+  // test_pt.print()
+  // stdout.print(" --> ")
+  val dist = center.distanceTo(test_pt, norm)
+  // stdout.print(python.toString(dist))
+  // stdout.println()
+  IfTSL.doifR(dist < 320.0, ~)
+    then
+      pygame.draw.circle(screen, pygame.helper.white, pygame.helper.make2Tuple(python.toInt(test_pt.x), python.toInt(test_pt.y)), 1)
+
+val loop : GameLoop = new
+  val fps = 144
+  var done : Boolean = false
+
+  def oneIteration() : Unit
+    pygame.display.flip()
+
+    drawPoint()
+    
+  def processEvent(e : pygame.Event) : Unit
+    val eventType = pygame.helper.getType(e)
+    IfTSL.doifR(eventType == pygame.QUIT, ~)
+      then
+        this.done = true
+    def keyEvents() : Unit
+      IfTSL.doifR(e.key == pygame.K_1, ~)
+        then
+          change_norm(1.0)
+      IfTSL.doifR(e.key == pygame.K_2, ~)
+        then
+          change_norm(2.0)
+      IfTSL.doifR(e.key == pygame.K_3, ~)
+        then
+          change_norm(3.0)
+      IfTSL.doifR(e.key == pygame.K_4, ~)
+        then
+          change_norm(4.0)
+      IfTSL.doifR(e.key == pygame.K_5, ~)
+        then
+          change_norm(5.0)
+      IfTSL.doifR(e.key == pygame.K_6, ~)
+        then
+          change_norm(6.0)
+      IfTSL.doifR(e.key == pygame.K_7, ~)
+        then
+          change_norm(7.0)
+      IfTSL.doifR(e.key == pygame.K_8, ~)
+        then
+          change_norm(8.0)
+      IfTSL.doifR(e.key == pygame.K_9, ~)
+        then
+          change_norm(9.0)
+    IfTSL.doifR(eventType == pygame.KEYDOWN || eventType == pygame.KEYUP, ~)
+      then
+        keyEvents()
+    // Indentation bug?
+      
+run(loop)
+pygame.quit()

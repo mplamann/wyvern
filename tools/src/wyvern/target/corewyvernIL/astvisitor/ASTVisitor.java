@@ -20,6 +20,7 @@ import wyvern.target.corewyvernIL.expression.FFI;
 import wyvern.target.corewyvernIL.expression.FFIImport;
 import wyvern.target.corewyvernIL.expression.FieldGet;
 import wyvern.target.corewyvernIL.expression.FieldSet;
+import wyvern.target.corewyvernIL.expression.FloatLiteral;
 import wyvern.target.corewyvernIL.expression.IntegerLiteral;
 import wyvern.target.corewyvernIL.expression.Let;
 import wyvern.target.corewyvernIL.expression.Match;
@@ -49,6 +50,7 @@ public abstract class ASTVisitor<S, T> {
 	public abstract T visit(S state, DefDeclaration defDecl);
 	public abstract T visit(S state, ValDeclaration valDecl);
 	public abstract T visit(S state, IntegerLiteral integerLiteral);
+  public abstract T visit(S state, FloatLiteral floatLiteral);
   public abstract T visit(S state, BooleanLiteral booleanLiteral);
 	public abstract T visit(S state, RationalLiteral rational);
 	public abstract T visit(S state, FormalArg formalArg);

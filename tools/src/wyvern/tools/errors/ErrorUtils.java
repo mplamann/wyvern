@@ -28,6 +28,7 @@ public class ErrorUtils {
                 } catch (IOException e) {
                     visibleMethods.append("<IOException in ErrorUtils.java>");
                 }
+                sep = ", ";
             }
             visibleMethods.append(") -> ");
             visibleMethods.append(method.getRawResultType().toString());
