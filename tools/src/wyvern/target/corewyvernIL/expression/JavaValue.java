@@ -95,6 +95,19 @@ public class JavaValue extends AbstractValue implements Invokable {
       } else if (arg instanceof StringLiteral) {
           return new String(((StringLiteral) arg).getValue());
       } else if (arg instanceof ObjectValue) {
+          // Check if arg looks like a list type
+          ObjectValue wyvList = (ObjectValue) arg;
+          if (wyvList.findDecl("get") != null && wyvList.findDecl("length") != null) {
+              List<Value> javaList = new LinkedList<>();
+              int listLen = ((IntegerLiteral) (wyvList.invoke("length", new LinkedList<>()))).getValue();
+              for (int i = 0; i < listLen; i++) {
+                  LinkedList<Value> args = new LinkedList<>();
+                  args.add(new IntegerLiteral(i));
+                  Value v = (Value)(wyvList.invoke("get", args));
+                  javaList.add(v);
+              }
+              return javaList;
+          }
           return arg;
           // List<Value> emptyList = new LinkedList<>();
           // // Extremely hacky. Won't work if a different list implementation is used, for example.
